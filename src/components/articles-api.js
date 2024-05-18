@@ -1,14 +1,16 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://hn.algolia.com/api/v1";
+axios.defaults.baseURL = "https://api.unsplash.com/";
 
 export const getArticles = async (topic, currentPage) => {
-  const response = await axios.get(`/search`, {
+  const response = await axios.get(`/photos`, {
     params: {
+      client_id: "HckNMPSQDS0G9c12XkQYeNdlDn8SwQhLo79hvgKC6eA",
       query: topic,
       page: currentPage,
-      hitsPerPage: 5,
+      per_page: 10,
     },
   });
-  return response.data.hits;
+  console.log(response);
+  return response.data;
 };

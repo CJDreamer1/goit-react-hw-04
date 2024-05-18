@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import { getArticles } from "../articles-api";
 import SearchBar from "../SearchBar/SearchBar";
+import ImageModal from "../ImageModal/ImageModal";
 
 export default function App() {
   const [articles, setArticles] = useState([]);
@@ -10,6 +10,9 @@ export default function App() {
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
@@ -35,6 +38,7 @@ export default function App() {
 
   const handleSearch = async (topic) => {
     setSearchQuery(topic);
+
     setPage(1);
     setArticles([]);
   };
@@ -42,17 +46,34 @@ export default function App() {
   const handleLoadMore = async () => {
     setPage(page + 1);
   };
+  // ========================================= Modal Window ====================
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsOpen(false);
+    setSelectedImage(null);
+  };
+  // =================================== End Modal window ===============================
   return (
     <div>
-      <h1>HTTP ruquest in React</h1>
+      <h1>HTTP request in React</h1>
       <SearchBar onSearch={handleSearch} />
       {isLoading && <p>Loading articles, please wait...</p>}
       {isError && <p>Ooops! There was an error, try reloading page!</p>}
-      {articles.length > 0 && <ImageGallery items={articles} />}
+      {articles.length > 0 && (
+        <ImageGallery items={articles} onImageClick={openModal} />
+      )}
       {articles.length > 0 && !isLoading && (
         <button onClick={handleLoadMore}>Load more</button>
       )}
+      <ImageModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        image={selectedImage}
+      />
     </div>
   );
 }

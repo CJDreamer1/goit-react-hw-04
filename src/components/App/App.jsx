@@ -10,10 +10,10 @@ export default function App() {
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-
+  // ================================ Modal State =============================
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
-
+  // ==========================================================================
   useEffect(() => {
     if (searchQuery.trim() === "") {
       return;
@@ -56,7 +56,7 @@ export default function App() {
     setIsOpen(false);
     setSelectedImage(null);
   };
-  // =================================== End Modal window ===============================
+  // =================================== End Modal window ======================
   return (
     <div>
       <h1>HTTP request in React</h1>

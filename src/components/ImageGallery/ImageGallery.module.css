@@ -5,9 +5,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .pictureContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  object-fit: cover;
 }

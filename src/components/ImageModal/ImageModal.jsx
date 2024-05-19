@@ -1,4 +1,5 @@
 import Modal from "react-modal";
+import css from "../ImageModal/ImageModal.module.css";
 
 const customStyles = {
   content: {
@@ -22,11 +23,19 @@ export default function ImageModal({ isOpen, onRequestClose, image }) {
       {image && (
         <div>
           <img
+            className={css.image}
             src={image.urls.regular}
             alt={image.alt_description}
-            style={{ width: "100%" }}
+            style={{
+              width: "100%",
+              maxHeight: "85vh",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
-          <button onClick={onRequestClose}>Close</button>
+          <button className={css.closeButton} onClick={onRequestClose}>
+            Close
+          </button>
         </div>
       )}
     </Modal>

@@ -1,0 +1,13 @@
+.image {
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px;
+}
+.closeButton {
+  cursor: pointer;
+  width: 100%;
+  border: 0;
+  background-color: rgb(0, 89, 255);
+  color: white;
+  border-radius: 4px;
+}

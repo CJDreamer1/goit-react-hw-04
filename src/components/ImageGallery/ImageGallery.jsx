@@ -8,8 +8,8 @@ export default function ImageGallery({ items, onImageClick }) {
       {console.log(items)}
       {items.map((item) => (
         <li
-          key={item.id}
           className={css.pictureContainer}
+          key={item.id}
           onClick={() => onImageClick(item)}
         >
           <ImageCard item={item} />

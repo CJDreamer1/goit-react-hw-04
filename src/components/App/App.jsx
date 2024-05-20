@@ -13,6 +13,7 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   // ================================ Modal State =============================
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -27,6 +28,13 @@ export default function App() {
         setIsLoading(true);
         setIsError(false);
         const data = await getArticles(searchQuery, page);
+        if (data.length < 10) {
+          setHasMore(false);
+          setIsError(true);
+        }
+        if (data.length > 1) {
+          setIsError(false);
+        }
         setArticles((prevState) => [...prevState, ...data]);
       } catch (error) {
         setIsError(true);
@@ -41,7 +49,7 @@ export default function App() {
 
   const handleSearch = async (topic) => {
     setSearchQuery(topic);
-
+    setHasMore(true);
     setPage(1);
     setArticles([]);
   };
@@ -82,16 +90,19 @@ export default function App() {
       className={css.progressBar}
     />
   );
-
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
       {isLoading && <div className={css.progressWrapper}>{bar}</div>}
-      {isError && <p>Ooops! There was an error, try reloading page!</p>}
+      {isError && (
+        <p>
+          Ooops! There was an error, try reloading page or change search request
+        </p>
+      )}
       {articles.length > 0 && (
         <ImageGallery items={articles} onImageClick={openModal} />
       )}
-      {articles.length > 0 && !isLoading && (
+      {articles.length > 0 && !isLoading && hasMore && (
         <button className={css.loadMoreBtn} onClick={handleLoadMore}>
           Load more
         </button>

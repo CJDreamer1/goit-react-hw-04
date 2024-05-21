@@ -5,6 +5,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import ImageModal from "../ImageModal/ImageModal";
 import { ProgressBar } from "react-loader-spinner";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import css from "../App/App.module.css";
 
 export default function App() {
@@ -57,8 +58,8 @@ export default function App() {
   };
 
   const handleLoadMore = async () => {
+    await setIsLoadingMore(true);
     try {
-      setIsLoadingMore(true);
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
       setIsError(true);
@@ -94,11 +95,7 @@ export default function App() {
     <div>
       <SearchBar onSearch={handleSearch} />
       {isLoading && <div className={css.progressWrapper}>{bar}</div>}
-      {isError && (
-        <p>
-          Ooops! There was an error, try reloading page or change search request
-        </p>
-      )}
+      {isError && <ErrorMessage />}
       {articles.length > 0 && (
         <ImageGallery items={articles} onImageClick={openModal} />
       )}

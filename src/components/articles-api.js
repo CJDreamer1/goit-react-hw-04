@@ -11,6 +11,5 @@ export const getArticles = async (topic, currentPage) => {
       per_page: 10,
     },
   });
-  console.log(response);
   return response.data.results;
 };

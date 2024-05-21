@@ -4,6 +4,7 @@ import { getArticles } from "../articles-api";
 import SearchBar from "../SearchBar/SearchBar";
 import ImageModal from "../ImageModal/ImageModal";
 import { ProgressBar } from "react-loader-spinner";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import css from "../App/App.module.css";
 
 export default function App() {
@@ -32,7 +33,7 @@ export default function App() {
           setHasMore(false);
           setIsError(true);
         }
-        if (data.length > 1) {
+        if (data.length >= 1) {
           setIsError(false);
         }
         setArticles((prevState) => [...prevState, ...data]);
@@ -46,6 +47,7 @@ export default function App() {
 
     console.log(searchQuery, page);
   }, [searchQuery, page]);
+  // =====================================================================================>
 
   const handleSearch = async (topic) => {
     setSearchQuery(topic);
@@ -102,12 +104,15 @@ export default function App() {
       {articles.length > 0 && (
         <ImageGallery items={articles} onImageClick={openModal} />
       )}
-      {articles.length > 0 && !isLoading && hasMore && (
-        <button className={css.loadMoreBtn} onClick={handleLoadMore}>
-          Load more
-        </button>
-      )}
       {isLoadingMore && <div className={css.progressWrapper}>{bar}</div>}
+      {articles.length > 0 && !isLoading && (
+        <LoadMoreBtn
+          isLoadingMore={isLoadingMore}
+          hasMore={hasMore}
+          onClick={handleLoadMore}
+          whileLoading={bar}
+        />
+      )}
       <ImageModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

@@ -57,11 +57,9 @@ export default function App() {
   };
 
   const handleLoadMore = async () => {
-    setIsLoadingMore(true);
-    setPage((prevPage) => prevPage + 1);
     try {
-      const data = await getArticles(searchQuery, page + 1);
-      setArticles((prevState) => [...prevState, ...data]);
+      setIsLoadingMore(true);
+      setPage((prevPage) => prevPage + 1);
     } catch (error) {
       setIsError(true);
     } finally {

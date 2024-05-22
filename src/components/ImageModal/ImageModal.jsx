@@ -19,6 +19,7 @@ export default function ImageModal({ isOpen, onRequestClose, image }) {
       onRequestClose={onRequestClose}
       style={customStyles}
       contentLabel="Image Modal"
+      appElement={document.getElementById("root")}
     >
       {image && (
         <div>

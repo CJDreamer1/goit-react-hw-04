@@ -30,18 +30,21 @@ export default function App() {
         setIsLoading(true);
         setIsError(false);
         const data = await getArticles(searchQuery, page);
-        if (data.length < 10) {
-          setHasMore(false);
+        if (data.total_pages > 1) {
+          setHasMore(true);
+        }
+        if (data.length === 0) {
           setIsError(true);
         }
-        if (data.length >= 1) {
-          setIsError(false);
+        if (data.length < 10) {
+          setHasMore(false);
         }
         setArticles((prevState) => [...prevState, ...data]);
       } catch (error) {
         setIsError(true);
       } finally {
         setIsLoading(false);
+        setIsLoadingMore(false);
       }
     }
     fetchArticles();
@@ -57,15 +60,8 @@ export default function App() {
     setArticles([]);
   };
 
-  const handleLoadMore = async () => {
-    await setIsLoadingMore(true);
-    try {
-      setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      setIsError(true);
-    } finally {
-      setIsLoadingMore(false);
-    }
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
   };
   // ========================================= Modal Window ====================
   const openModal = (image) => {

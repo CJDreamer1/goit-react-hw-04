@@ -61,6 +61,7 @@ export default function App() {
   };
 
   const handleLoadMore = () => {
+    setIsLoadingMore(true);
     setPage((prevPage) => prevPage + 1);
   };
   // ========================================= Modal Window ====================
